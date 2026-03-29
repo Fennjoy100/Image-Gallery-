@@ -25,6 +25,7 @@ body {
   min-height: 100vh;
   background: var(--page-background);
   color: var(--text-primary);
+  overflow-x: hidden;
 }
 
 img {
@@ -33,9 +34,118 @@ img {
 }
 
 .app-shell {
+  position: relative;
+  z-index: 1;
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 3rem 0 4rem;
+}
+
+.butterfly-sky {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.butterfly {
+  position: absolute;
+  left: -10%;
+  width: 56px;
+  height: 42px;
+  filter: hue-rotate(var(--butterfly-hue)) saturate(1.15);
+  transform: scale(var(--butterfly-scale));
+  animation: butterfly-flight linear infinite;
+}
+
+.butterfly-body {
+  position: absolute;
+  left: 50%;
+  top: 9px;
+  width: 7px;
+  height: 24px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #43245f 0%, #1b1028 100%);
+  box-shadow: 0 0 12px rgba(255, 182, 94, 0.35);
+}
+
+.butterfly-wing {
+  position: absolute;
+  top: 4px;
+  width: 26px;
+  height: 28px;
+  border-radius: 85% 35% 75% 35%;
+  background: radial-gradient(circle at 35% 35%, #fff5ae 0%, #ff8cb3 42%, #7a79ff 100%);
+  opacity: 0.9;
+  animation: butterfly-flap 650ms ease-in-out infinite;
+  box-shadow:
+    0 0 12px rgba(255, 166, 122, 0.4),
+    inset 0 0 10px rgba(255, 255, 255, 0.22);
+}
+
+.butterfly-wing-left {
+  left: 2px;
+  transform-origin: right center;
+}
+
+.butterfly-wing-right {
+  right: 2px;
+  transform-origin: left center;
+  transform: scaleX(-1);
+}
+
+@keyframes butterfly-flight {
+  0% {
+    transform: translate3d(0, 0, 0) scale(var(--butterfly-scale));
+  }
+
+  25% {
+    transform: translate3d(32vw, -30px, 0) scale(calc(var(--butterfly-scale) * 1.02));
+  }
+
+  50% {
+    transform: translate3d(58vw, 26px, 0) scale(var(--butterfly-scale));
+  }
+
+  75% {
+    transform: translate3d(84vw, -20px, 0) scale(calc(var(--butterfly-scale) * 0.98));
+  }
+
+  100% {
+    transform: translate3d(118vw, 18px, 0) scale(var(--butterfly-scale));
+  }
+}
+
+@keyframes butterfly-flap {
+  0%,
+  100% {
+    transform: rotate(18deg) scaleY(1);
+  }
+
+  50% {
+    transform: rotate(-28deg) scaleY(0.88);
+  }
+}
+
+.butterfly-wing-right {
+  transform: scaleX(-1);
+}
+
+.butterfly-wing-right {
+  animation-name: butterfly-flap-right;
+}
+
+@keyframes butterfly-flap-right {
+  0%,
+  100% {
+    transform: scaleX(-1) rotate(18deg) scaleY(1);
+  }
+
+  50% {
+    transform: scaleX(-1) rotate(-28deg) scaleY(0.88);
+  }
 }
 
 .theme-light {
@@ -71,6 +181,7 @@ img {
 .hero {
   text-align: center;
   margin-bottom: 2.5rem;
+  position: relative;
 }
 
 .hero-topbar {
@@ -280,7 +391,58 @@ img {
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
+  gap: 2rem 1.5rem;
+}
+
+.image-card-shell {
+  position: relative;
+  padding-top: 0.55rem;
+}
+
+.image-droplets {
+  position: absolute;
+  inset: -0.4rem 0 auto;
+  height: calc(100% + 0.8rem);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.image-droplet {
+  position: absolute;
+  top: -1.4rem;
+  width: 9px;
+  height: 26px;
+  border-radius: 999px 999px 999px 999px / 70% 70% 100% 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(161, 222, 255, 0.95) 45%,
+    rgba(79, 172, 228, 0.15)
+  );
+  box-shadow:
+    0 0 14px rgba(131, 212, 255, 0.36),
+    0 8px 16px rgba(79, 172, 228, 0.2);
+  animation: card-droplet linear infinite;
+}
+
+@keyframes card-droplet {
+  0% {
+    transform: translateY(-8%) scaleY(0.88);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 0.95;
+  }
+
+  78% {
+    opacity: 0.82;
+  }
+
+  100% {
+    transform: translateY(390px) scaleY(1.05);
+    opacity: 0;
+  }
 }
 
 .image-card {
@@ -288,6 +450,7 @@ img {
   border-radius: 22px;
   background: var(--surface);
   border: 1px solid var(--surface-border);
+  backdrop-filter: blur(10px);
   box-shadow: 0 20px 45px var(--shadow);
   transition:
     transform 180ms ease,

@@ -58,6 +58,14 @@ const getMatchScore = (image, searchText) => {
   return score;
 };
 
+const butterflies = [
+  { id: 1, top: "10%", delay: "0s", duration: "17s", size: "0.95", hue: "0deg" },
+  { id: 2, top: "24%", delay: "3s", duration: "20s", size: "1.15", hue: "45deg" },
+  { id: 3, top: "46%", delay: "6s", duration: "18s", size: "0.9", hue: "110deg" },
+  { id: 4, top: "63%", delay: "1.5s", duration: "22s", size: "1.05", hue: "200deg" },
+  { id: 5, top: "78%", delay: "4.5s", duration: "19s", size: "0.98", hue: "290deg" },
+];
+
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("english");
@@ -229,6 +237,25 @@ function App() {
 
   return (
     <Fragment>
+      <div className="butterfly-sky" aria-hidden="true">
+        {butterflies.map((butterfly) => (
+          <span
+            key={butterfly.id}
+            className="butterfly"
+            style={{
+              top: butterfly.top,
+              animationDelay: butterfly.delay,
+              animationDuration: butterfly.duration,
+              "--butterfly-scale": butterfly.size,
+              "--butterfly-hue": butterfly.hue,
+            }}
+          >
+            <span className="butterfly-body" />
+            <span className="butterfly-wing butterfly-wing-left" />
+            <span className="butterfly-wing butterfly-wing-right" />
+          </span>
+        ))}
+      </div>
       <main className={`app-shell ${isDarkMode ? "theme-dark" : "theme-light"}`}>
         <section className="hero">
           <div className="hero-topbar">
